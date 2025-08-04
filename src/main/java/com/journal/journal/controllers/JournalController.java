@@ -5,6 +5,8 @@ import com.journal.journal.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/journal-entry")
@@ -15,8 +17,8 @@ public class JournalController {
 
 
     @GetMapping
-    public String getAllEntry(){
-        return "All Entries";
+    public List<JournalEntity> getAllEntry(){
+       return journalRepository.findAll();
     }
 
     @PostMapping
