@@ -28,20 +28,14 @@ public class JournalServices {
     }
 
 
-    public void updateOne(ObjectId id) {
-        Optional<JournalEntity> currentEntry = journalRepository.findById(id);
+    public JournalEntity updateOne(ObjectId id, JournalEntity updatedEntry) {
+        JournalEntity currentEntry = journalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Journal entry not found with id: " + id));
 
-        if (currentEntry.isPresent()) {
-            JournalEntity entry = currentEntry.get();
+        currentEntry.setTitle(updatedEntry.getTitle());
+        currentEntry.setDescription(updatedEntry.getDescription());
 
-            entry.setTitle("Updated Title");
-            entry.setDescription("Description");
-
-            journalRepository.save(entry);
-        } else {
-
-            throw new RuntimeException("Journal entry not found with id: " + id);
-        }
+        return journalRepository.save(currentEntry);
     }
 
 
