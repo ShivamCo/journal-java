@@ -1,5 +1,7 @@
 package com.journal.journal.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
@@ -8,10 +10,12 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@Document(collection = "users")
+@Document(collection = "user")
 @Data
 public class UserEntity {
     @Id
@@ -23,6 +27,6 @@ public class UserEntity {
     private String password;
 
     @DBRef
-    private List<JournalEntity> journalEntries = new ArrayList<>();
+    private List<JournalEntity> journalEntities = new ArrayList<>();
 
 }

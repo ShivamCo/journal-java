@@ -6,39 +6,40 @@ import com.journal.journal.repository.JournalRepository;
 import com.journal.journal.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
+
+
+@Component
 public class UserServices {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public List<UserEntity> getAllUsers(){
+
+
+    public void saveEntry(UserEntity user){
+        userRepository.save(user);
+    }
+
+    public List<UserEntity> getAll(){
         return userRepository.findAll();
     }
 
-    public void addUser(UserEntity newTask){
-        userRepository.insert(newTask);
+    public Optional<UserEntity> findById(ObjectId id){
+        return userRepository.findById(id);
     }
 
-    public void deleteUser(ObjectId id){
+    public void deleteById(ObjectId id){
         userRepository.deleteById(id);
     }
 
-
-    public UserEntity updateUser(ObjectId id, UserEntity updatedEntry) {
-        UserEntity currentEntry = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Journal entry not found with id: " + id));
-
-//        currentEntry.setTitle(updatedEntry.getTitle());
-//        currentEntry.setDescription(updatedEntry.getDescription());
-''
-        return userRepository.save(currentEntry);
+    public UserEntity findByUserName(String userName){
+        return userRepository.findByUserName(userName);
     }
-
-
 
 }
