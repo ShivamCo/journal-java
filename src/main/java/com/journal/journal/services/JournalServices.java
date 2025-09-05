@@ -6,6 +6,7 @@ import com.journal.journal.repository.JournalRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class JournalServices {
     @Autowired
     private UserServices userServices;
 
+    @Transactional
     public void saveEntry(JournalEntity journalEntry, String userName){
 
     UserEntity user = userServices.findByUserName(userName);
@@ -29,6 +31,7 @@ public class JournalServices {
     userServices.saveEntry(user);
 
     }
+
 
     public void saveEntry(JournalEntity journalEntry){
 
