@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -26,26 +28,32 @@ public class UserController {
     @Autowired
     private UserServices userServices;
 
-    @GetMapping
-    public List<UserEntity> getAllUsers(){
-        return userServices.getAll();
-    }
+    @Autowired
+    private UserRepository userRepository;
 
 
-    @PostMapping
-    public void createUser(@RequestBody UserEntity user){
-        userServices.saveEntry(user);
-    }
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody UserEntity user){
 
-    @PutMapping("/{userName}")
-    public ResponseEntity<?> updateUser(@RequestBody UserEntity user, @PathVariable String userName ){
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+ String userName = authentication.getName();
 UserEntity userInDB = userServices.findByUserName(userName);
 if(userInDB != null){
     userInDB.setUserName(user.getUserName());
     userInDB.setPassword(user.getPassword());
-    userServices.saveEntry(userInDB);
+    userServices.saveNewUser(userInDB);
 } return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping
+
+    public ResponseEntity<?> deleteUserById(){
+
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+    userRepository.deleteByUserName(authentication.getName());
+
+
+         return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }
