@@ -20,8 +20,7 @@ import java.util.Optional;
 
 
 
-@Component
-@Slf4j
+@Service
 public class UserServices {
 
     @Autowired
@@ -37,9 +36,6 @@ public class UserServices {
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
         } catch (Exception e) {
-            log.warn("warn for : {}", user.getUserName(),e );
-            log.debug("gdgdfgsdfgdf", e);
-            log.info("sdfsdfdsaaf", e);
 
         }
 

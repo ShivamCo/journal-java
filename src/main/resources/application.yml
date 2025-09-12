@@ -7,3 +7,7 @@ logging:
     com:
       journal:
         journal: DEBUG
+
+weather:
+  api:
+    key: "00052a3a73041a03ef15797b14d625fe"

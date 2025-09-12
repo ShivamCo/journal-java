@@ -8,13 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class JournalServices {
 
     @Autowired
@@ -23,20 +24,19 @@ public class JournalServices {
     @Autowired
     private UserServices userServices;
 
-    private static final Logger logger = LoggerFactory.getLogger(JournalEntity.class);
 
     @Transactional
     public void saveEntry(JournalEntity journalEntry, String userName) {
-try {
-    UserEntity user = userServices.findByUserName(userName);
-    journalEntry.setDate(LocalDateTime.now());
-    JournalEntity savedOne = journalRepository.save(journalEntry);
-    user.getJournalEntities().add(savedOne);
-    userServices.saveUser(user);
-} catch (Exception e) {
-    logger.info("Loged");
-    throw new RuntimeException("An Error Occurred" + e);
-}
+        try {
+            UserEntity user = userServices.findByUserName(userName);
+            journalEntry.setDate(LocalDateTime.now());
+            JournalEntity savedOne = journalRepository.save(journalEntry);
+            user.getJournalEntities().add(savedOne);
+            userServices.saveUser(user);
+        } catch (Exception e) {
+
+            throw new RuntimeException("An Error Occurred" + e);
+        }
 
     }
 

@@ -1,11 +1,13 @@
 package com.journal.journal.controllers;
 
+import com.journal.journal.api.response.WeatherResponse;
 import com.journal.journal.entity.JournalEntity;
 import com.journal.journal.entity.UserEntity;
 import com.journal.journal.repository.JournalRepository;
 import com.journal.journal.repository.UserRepository;
 import com.journal.journal.services.JournalServices;
 import com.journal.journal.services.UserServices;
+import com.journal.journal.services.WeatherService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -31,6 +33,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private WeatherService weatherService;
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody UserEntity user) {
@@ -55,6 +59,21 @@ public class UserController {
 
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> greeting(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        WeatherResponse weatherResponse = weatherService.getWeather("Kolkata");
+
+        if(weatherResponse != null){
+            return  new ResponseEntity<>("Hi "+authentication.getName()+" Today's AQO in Mumbai is : " + weatherResponse.getCurrent().getFeelslike() , HttpStatus.OK);
+        } else {
+            return  new ResponseEntity<>("Hi "+authentication.getName()+" Today's AQO in Mumbai is : " + "Not Found" , HttpStatus.OK);
+        }
+
+
     }
 
 }
