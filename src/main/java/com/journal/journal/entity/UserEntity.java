@@ -3,6 +3,7 @@ package com.journal.journal.entity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -17,17 +18,20 @@ import java.util.List;
 
 @Document(collection = "user")
 @Data
+@NoArgsConstructor
 public class UserEntity {
     @Id
     private ObjectId id;
     @Indexed(unique = true)
     @NonNull
     private String userName;
+    private String email;
+    private boolean sentimentAnalysis;
     @NonNull
     private String password;
 
     @DBRef
     private List<JournalEntity> journalEntities = new ArrayList<>();
-private List<String> roles;
+    private List<String> roles;
 
 }

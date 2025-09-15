@@ -8,14 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsServiceImplTest {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Mock
-    private UserRepository userRepository;
-
-    void loadUserByUsernameTest(){
-        userDetailsService.loadUserByUsername("First");
-    }
+//    @Autowired
+//    private UserDetailsServiceImpl userDetailsService;
+//
+//    @Mock
+//    private UserRepository userRepository;
+//
+//    void loadUserByUsernameTest(){
+//        userDetailsService.loadUserByUsername("First");
+//    }
 
 }
